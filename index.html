@@ -7,129 +7,129 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
+/* === FIX BUG 2 TITIK (TANPA UBAH LAYOUT & TEKS) === */
+*::before,
+*::after{
+  content:none !important;
+}
+
 body{
   background:#000;
   font-family:'Georgia',serif;
   color:#fff;
   text-align:center;
+  overflow:hidden;
 }
 
 /* ================= MENU ================= */
 #menu{
   display:flex;
   flex-direction:column;
+  justify-content:flex-start;
   align-items:center;
+  gap:16px;
   padding-top:120px;
-  gap:18px;
 }
 
-/* JUDUL */
+/* ================= ANIMASI JUDUL ================= */
 .titleMenu{
   font-size:36px;
   font-weight:bold;
-  display:flex;
-  gap:26px;
+  margin-bottom:12px;
 }
 .titleMenu span{
   animation:colorCycle 4s infinite;
+  font-weight:bold;
+  display:inline-block;
 }
 @keyframes colorCycle{
-  0%{color:#ff3b3b}
-  25%{color:#4facff}
-  50%{color:#ffd34a}
-  75%{color:#2aff7a}
-  100%{color:#ff3b3b}
+  0%{color:#ff3b3b;}
+  25%{color:#4facff;}
+  50%{color:#ffd34a;}
+  75%{color:#2aff7a;}
+  100%{color:#ff3b3b;}
 }
 
-/* CAPTION MENU */
+/* ================= CAPTION MENU ================= */
 .captionMenu{
-  max-width:520px;
   font-size:16px;
-  opacity:.9;
-  margin-bottom:20px;
+  color:#fff;
+  opacity:0.9;
+  max-width:500px;
+  margin-bottom:40px;
 }
 
-/* BUTTON */
-.house,.specialBtn{
+/* ================= HOUSE BUTTONS ================= */
+.house{
   padding:14px 38px;
   font-size:22px;
   border-radius:40px;
-  border:2px solid #fff;
+  border:2px solid currentColor;
   background:transparent;
   cursor:pointer;
 }
-.specialBtn{
-  margin-top:20px;
-  color:#fff;
-}
 
-/* ================= PAGE ================= */
-.page{position:fixed;inset:0;display:none}
-.page.active{display:block}
+/* ================= SLIDE & FOTO ================= */
+.slide{position:fixed;inset:0;display:none;}
+.slide.active{display:block;}
+.bg{position:absolute;inset:0;background:radial-gradient(circle at top,var(--main),#000 70%);opacity:.25;}
 .back{
-  position:fixed;
-  top:14px;left:14px;
-  padding:8px 14px;
-  border-radius:20px;
-  border:1px solid #fff;
-  background:#000;
-  color:#fff;
-  cursor:pointer;
+  position:absolute;top:14px;left:14px;z-index:10;
+  padding:8px 14px;border-radius:20px;
+  border:1px solid #fff;background:#000;color:#fff;cursor:pointer;
 }
 
-/* ================= HOUSE GRID ================= */
+/* Grid foto */
 .gridContainer{
   position:absolute;
-  top:8%;
+  top:10%;
   left:50%;
   transform:translateX(-50%);
   width:92%;
   max-width:420px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
 }
-.gridTitle{font-size:22px;margin-bottom:12px}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
+.gridTitle{
+  font-size:22px;
+  font-weight:bold;
+  margin-bottom:12px;
 }
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .slot{
-  aspect-ratio:1/1;
-  border-radius:8px;
-  overflow:hidden;
-  background:#eee;
-  opacity:0;
-  transform:translateY(20px);
-  animation:fadeUp .6s forwards;
+  background:#f2f2f2;border-radius:8px;overflow:hidden;
+  aspect-ratio:1/1;box-shadow:0 8px 18px rgba(0,0,0,.7);
+  opacity:0; transform:translateY(20px);
+  animation:fadeUp 0.6s forwards;
 }
-.slot img{width:100%;height:100%;object-fit:cover}
-@keyframes fadeUp{to{opacity:1;transform:none}}
+.slot img{width:100%;height:100%;object-fit:cover;}
+@keyframes fadeUp{to{opacity:1; transform:translateY(0);}}
 
-/* ================= SPECIAL LETTER ================= */
-.letterWrap{
-  position:absolute;
-  inset:0;
-  padding:80px 18px 40px;
-  overflow-y:auto;
+/* Caption */
+.captionWrap{margin-top:12px;}
+.caption{font-size:14px;line-height:1.5;min-height:42px;margin-bottom:12px;}
+.playCaption{
+  width:44px;height:44px;border-radius:50%;
+  border:1px solid #fff;background:#000;color:#fff;
+  font-size:18px;cursor:pointer;
 }
-.letterGrid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
-  gap:14px;
+
+/* ================= FIREWORK ================= */
+.shell{
+  position:absolute;bottom:0;width:6px;height:6px;
+  background:var(--main);border-radius:50%;
+  animation:launch 1.1s linear forwards;z-index:5;
 }
-.letterItem{
-  border-radius:10px;
-  overflow:hidden;
-  opacity:0;
-  transform:scale(.85);
-  animation:zoomIn .6s forwards;
+@keyframes launch{to{transform:translateY(-80vh);opacity:0;}}
+.spark{
+  position:absolute;width:4px;height:4px;
+  background:var(--main);border-radius:50%;
+  animation:explode 1s ease-out forwards;z-index:5;
 }
-.letterItem img{
-  width:100%;
-  height:140px;
-  object-fit:cover;
-}
-@keyframes zoomIn{
-  to{opacity:1;transform:scale(1)}
+@keyframes explode{
+  to{transform:translate(var(--x),var(--y));opacity:0;}
 }
 </style>
 </head>
@@ -138,87 +138,149 @@ body{
 
 <!-- MENU -->
 <div id="menu">
-  <div class="titleMenu">
-    <span>Happy Birthday</span>
-    <span>SILE !!</span>
-  </div>
-
+  <div class="titleMenu" id="animatedTitle"></div>
   <div class="captionMenu">
-    yess this is your special day, i made this just for you cuzz today is your birthday &lt;3
+    Yess, this is your special day, I made this just for you cuzz today is your birthday &lt;3
   </div>
 
   <div class="house" style="color:#ff3b3b" onclick="openHouse('gryffindor')">Gryffindor</div>
   <div class="house" style="color:#4facff" onclick="openHouse('ravenclaw')">Ravenclaw</div>
   <div class="house" style="color:#ffd34a" onclick="openHouse('hufflepuff')">Hufflepuff</div>
   <div class="house" style="color:#2aff7a" onclick="openHouse('slytherin')">Slytherin</div>
-
-  <!-- SPECIAL LETTER BUTTON -->
-  <div class="specialBtn" onclick="openLetter()">💌 Special Letter</div>
 </div>
 
 <div id="container"></div>
 
 <script>
-const houses={
- gryffindor:{title:"Happy Birthday My Girlfriend",photos:["g1.jpeg","g2.jpeg","g3.jpeg","g4.jpeg","g5.jpeg","g6.jpeg","g7.jpeg","g8.jpeg","g9.jpeg"]},
- ravenclaw:{title:"Happy Birthday My Love",photos:["r1.jpeg","r2.jpeg","r3.jpeg","r4.jpeg","r5.jpeg","r6.jpeg","r7.jpeg","r8.jpeg","r9.jpeg"]},
- hufflepuff:{title:"Happy Birthday Sweetheart",photos:["h1.jpeg","h2.jpeg","h3.jpeg","h4.jpeg","h5.jpeg","h6.jpeg","h7.jpeg","h8.jpeg","h9.jpeg"]},
- slytherin:{title:"Happy Birthday My Queen",photos:["s1.jpeg","s2.jpeg","s3.jpeg","s4.jpeg","s5.jpeg","s6.jpeg","s7.jpeg","s8.jpeg","s9.jpeg"]}
+// ================= ANIMASI HURUF ==================
+const titleText = "Happy Birthday SILE !!";
+const animatedTitle = document.getElementById("animatedTitle");
+titleText.split("").forEach(char=>{
+  const span=document.createElement("span");
+  span.textContent=char;
+  animatedTitle.appendChild(span);
+});
+
+// ================= DATA HOUSE ==================
+var houses = {
+  gryffindor:{
+    color:"#ff3b3b",
+    title:"Happy Birthday My Girlfriend!!",
+    caption:"Thank you for being a part of my life, thank you for growing well, thank you for always being the source of my happiness ❤️",
+    music:"gryffindor.mpeg",
+    photos:["g1.jpeg","g2.jpeg","g3.jpeg","g4.jpeg","g5.jpeg","g6.jpeg","g7.jpeg","g8.jpeg","g9.jpeg"]
+  },
+  ravenclaw:{
+    color:"#4facff",
+    title:"Happy Birthday My Smart Angel!!",
+    caption:"I hope that on this special day you are surrounded by happiness, filled with joy, and blessed with love 💙",
+    music:"ravenclaw.mpeg",
+    photos:["r1.jpeg","r2.jpeg","r3.jpeg","r4.jpeg","r5.jpeg","r6.jpeg","r7.jpeg","r8.jpeg","r9.jpeg"]
+  },
+  hufflepuff:{
+    color:"#ffd34a",
+    title:"Happy Birthday My Sweetheart!!",
+    caption:"You deserve the world, and I’ll always love you. I’m grateful for everything you do, and thankful to have a girlfriend like you💛",
+    music:"hufflepuff.mpeg",
+    photos:["h1.jpeg","h2.jpeg","h3.jpeg","h4.jpeg","h5.jpeg","h6.jpeg","h7.jpeg","h8.jpeg","h9.jpeg"]
+  },
+  slytherin:{
+    color:"#2aff7a",
+    title:"Happy Birthday My Love!!",
+    caption:"you're my four leaf clover🍀💚",
+    music:"slytherin.mpeg",
+    photos:["s1.jpeg","s2.jpeg","s3.jpeg","s4.jpeg","s5.jpeg","s6.jpeg","s7.jpeg","s8.jpeg","s9.jpeg"]
+  }
 };
 
-/* ================= HOUSE ================= */
+var audio,typing,fwInterval;
+
+// ================= TYPING =================
+function typeText(el,text){
+  el.textContent="";
+  clearInterval(typing);
+  var i=0;
+  typing=setInterval(()=>{
+    el.textContent+=text[i++];
+    if(i>=text.length) clearInterval(typing);
+  },35);
+}
+
+// ================= OPEN HOUSE =================
 function openHouse(h){
- document.getElementById("menu").style.display="none";
- document.getElementById("container").innerHTML="";
+  menu.style.display="none";
+  container.innerHTML="";
+  if(audio) audio.pause();
+  clearInterval(fwInterval);
 
- let slots="";
- houses[h].photos.forEach((p,i)=>{
-  slots+=`<div class="slot" style="animation-delay:${i*0.1}s"><img src="${p}"></div>`;
- });
+  var c=houses[h];
+  document.body.style.setProperty("--main",c.color);
 
- document.getElementById("container").innerHTML=`
- <div class="page active">
-  <button class="back" onclick="goBack()">⬅ Back</button>
-  <div class="gridContainer">
-    <div class="gridTitle">${houses[h].title}</div>
-    <div class="grid">${slots}</div>
-  </div>
- </div>`;
+  var slots="";
+  c.photos.forEach((p,i)=>{
+    slots+=`<div class="slot" style="animation-delay:${i*0.1}s"><img src="${p}"></div>`;
+  });
+
+  var slide=document.createElement("div");
+  slide.className="slide active";
+  slide.innerHTML=`
+    <div class="bg"></div>
+    <button class="back" onclick="goBack()">⬅ Back</button>
+    <div class="gridContainer">
+      <div class="gridTitle"></div>
+      <div class="grid">${slots}</div>
+      <div class="captionWrap">
+        <div class="caption"></div>
+        <button class="playCaption" onclick="playCaption()">&lt;3</button>
+      </div>
+    </div>
+  `;
+  slide.dataset.title=c.title;
+  slide.dataset.caption=c.caption;
+  container.appendChild(slide);
+
+  audio=new Audio(c.music);
+  audio.loop=true;
+  audio.play();
+
+  fwInterval=setInterval(()=>{
+    const shell=document.createElement("div");
+    shell.className="shell";
+    shell.style.left=Math.random()*100+"%";
+    slide.appendChild(shell);
+    setTimeout(()=>{
+      for(let i=0;i<20;i++){
+        const s=document.createElement("div");
+        s.className="spark";
+        s.style.left=shell.style.left;
+        s.style.bottom="80vh";
+        s.style.setProperty("--x",(Math.random()*200-100)+"px");
+        s.style.setProperty("--y",(Math.random()*200-100)+"px");
+        slide.appendChild(s);
+        setTimeout(()=>s.remove(),1000);
+      }
+      shell.remove();
+    },1100);
+  },600);
 }
 
-/* ================= SPECIAL LETTER ================= */
-function openLetter(){
- document.getElementById("menu").style.display="none";
- document.getElementById("container").innerHTML="";
-
- const photos=[
-  "l1.jpeg","l2.jpeg","l3.jpeg","l4.jpeg","l5.jpeg",
-  "l6.jpeg","l7.jpeg","l8.jpeg","l9.jpeg","l10.jpeg",
-  "l11.jpeg","l12.jpeg"
- ];
-
- let items="";
- photos.forEach((p,i)=>{
-  items+=`
-   <div class="letterItem" style="animation-delay:${i*0.08}s">
-     <img src="${p}">
-   </div>`;
- });
-
- document.getElementById("container").innerHTML=`
- <div class="page active">
-   <button class="back" onclick="goBack()">⬅ Back</button>
-   <div class="letterWrap">
-     <div class="letterGrid">${items}</div>
-   </div>
- </div>`;
+// ================= PLAY CAPTION =================
+function playCaption(){
+  const slide=document.querySelector(".slide.active");
+  typeText(slide.querySelector(".gridTitle"),slide.dataset.title);
+  setTimeout(()=>{
+    typeText(slide.querySelector(".caption"),slide.dataset.caption);
+  },slide.dataset.title.length*35+300);
 }
 
+// ================= BACK =================
 function goBack(){
- document.getElementById("container").innerHTML="";
- document.getElementById("menu").style.display="flex";
+  container.innerHTML="";
+  menu.style.display="flex";
+  if(audio) audio.pause();
+  clearInterval(fwInterval);
 }
 </script>
-
 </body>
 </html>
+
