@@ -7,12 +7,7 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-
-/* === FIX BUG 2 TITIK (TANPA UBAH LAYOUT & TEKS) === */
-*::before,
-*::after{
-  content:none !important;
-}
+*::before,*::after{content:none !important;}
 
 body{
   background:#000;
@@ -26,7 +21,6 @@ body{
 #menu{
   display:flex;
   flex-direction:column;
-  justify-content:flex-start;
   align-items:center;
   gap:16px;
   padding-top:120px;
@@ -40,7 +34,6 @@ body{
 }
 .titleMenu span{
   animation:colorCycle 4s infinite;
-  font-weight:bold;
   display:inline-block;
 }
 @keyframes colorCycle{
@@ -54,9 +47,8 @@ body{
 /* ================= CAPTION MENU ================= */
 .captionMenu{
   font-size:16px;
-  color:#fff;
-  opacity:0.9;
-  max-width:500px;
+  opacity:.9;
+  max-width:520px;
   margin-bottom:40px;
 }
 
@@ -70,17 +62,24 @@ body{
   cursor:pointer;
 }
 
-/* ================= SLIDE & FOTO ================= */
+/* ================= SLIDE ================= */
 .slide{position:fixed;inset:0;display:none;}
 .slide.active{display:block;}
 .bg{position:absolute;inset:0;background:radial-gradient(circle at top,var(--main),#000 70%);opacity:.25;}
 .back{
-  position:absolute;top:14px;left:14px;z-index:10;
-  padding:8px 14px;border-radius:20px;
-  border:1px solid #fff;background:#000;color:#fff;cursor:pointer;
+  position:absolute;
+  top:14px;
+  left:14px;
+  padding:8px 14px;
+  border-radius:20px;
+  border:1px solid #fff;
+  background:#000;
+  color:#fff;
+  cursor:pointer;
+  z-index:10;
 }
 
-/* Grid foto */
+/* ================= FOTO ================= */
 .gridContainer{
   position:absolute;
   top:10%;
@@ -88,45 +87,77 @@ body{
   transform:translateX(-50%);
   width:92%;
   max-width:420px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
 }
 .gridTitle{
   font-size:22px;
   font-weight:bold;
   margin-bottom:12px;
+  min-height:28px;
 }
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
 .slot{
-  background:#f2f2f2;border-radius:8px;overflow:hidden;
-  aspect-ratio:1/1;box-shadow:0 8px 18px rgba(0,0,0,.7);
-  opacity:0; transform:translateY(20px);
-  animation:fadeUp 0.6s forwards;
+  background:#f2f2f2;
+  border-radius:8px;
+  overflow:hidden;
+  aspect-ratio:1/1;
+  box-shadow:0 8px 18px rgba(0,0,0,.7);
+  opacity:0;
+  transform:translateY(20px);
+  animation:fadeUp .6s forwards;
 }
-.slot img{width:100%;height:100%;object-fit:cover;}
-@keyframes fadeUp{to{opacity:1; transform:translateY(0);}}
+.slot img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+@keyframes fadeUp{
+  to{opacity:1;transform:none;}
+}
 
-/* Caption */
-.captionWrap{margin-top:12px;}
-.caption{font-size:14px;line-height:1.5;min-height:42px;margin-bottom:12px;}
+/* ================= CAPTION ================= */
+.captionWrap{margin-top:14px;}
+.caption{
+  font-size:14px;
+  line-height:1.5;
+  min-height:80px;
+  white-space:pre-line;
+}
 .playCaption{
-  width:44px;height:44px;border-radius:50%;
-  border:1px solid #fff;background:#000;color:#fff;
-  font-size:18px;cursor:pointer;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:1px solid #fff;
+  background:#000;
+  color:#fff;
+  font-size:18px;
+  cursor:pointer;
+  margin-top:12px;
 }
 
 /* ================= FIREWORK ================= */
 .shell{
-  position:absolute;bottom:0;width:6px;height:6px;
-  background:var(--main);border-radius:50%;
-  animation:launch 1.1s linear forwards;z-index:5;
+  position:absolute;
+  bottom:0;
+  width:6px;
+  height:6px;
+  background:var(--main);
+  border-radius:50%;
+  animation:launch 1.1s linear forwards;
 }
-@keyframes launch{to{transform:translateY(-80vh);opacity:0;}}
+@keyframes launch{
+  to{transform:translateY(-80vh);opacity:0;}
+}
 .spark{
-  position:absolute;width:4px;height:4px;
-  background:var(--main);border-radius:50%;
-  animation:explode 1s ease-out forwards;z-index:5;
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:var(--main);
+  border-radius:50%;
+  animation:explode 1s ease-out forwards;
 }
 @keyframes explode{
   to{transform:translate(var(--x),var(--y));opacity:0;}
@@ -152,136 +183,138 @@ body{
 <div id="container"></div>
 
 <script>
-// ================= ANIMASI HURUF ==================
-const titleText = "Happy Birthday SILE !!";
-const animatedTitle = document.getElementById("animatedTitle");
-titleText.split("").forEach(char=>{
-  const span=document.createElement("span");
-  span.textContent=char;
-  animatedTitle.appendChild(span);
+/* ===== ANIMASI JUDUL ===== */
+const titleText="Happy Birthday SILE !!";
+const titleEl=document.getElementById("animatedTitle");
+titleText.split("").forEach(c=>{
+  const s=document.createElement("span");
+  s.textContent=c;
+  titleEl.appendChild(s);
 });
 
-// ================= DATA HOUSE ==================
-var houses = {
-  gryffindor:{
-    color:"#ff3b3b",
-    title:"Happy Birthday My Girlfriend!!",
-    caption:"Thank you for being a part of my life, thank you for growing well, thank you for always being the source of my happiness ❤️",
-    music:"gryffindor.mpeg",
-    photos:["g1.jpeg","g2.jpeg","g3.jpeg","g4.jpeg","g5.jpeg","g6.jpeg","g7.jpeg","g8.jpeg","g9.jpeg"]
-  },
-  ravenclaw:{
-    color:"#4facff",
-    title:"Happy Birthday My Smart Angel!!",
-    caption:"I hope that on this special day you are surrounded by happiness, filled with joy, and blessed with love 💙",
-    music:"ravenclaw.mpeg",
-    photos:["r1.jpeg","r2.jpeg","r3.jpeg","r4.jpeg","r5.jpeg","r6.jpeg","r7.jpeg","r8.jpeg","r9.jpeg"]
-  },
-  hufflepuff:{
-    color:"#ffd34a",
-    title:"Happy Birthday My Sweetheart!!",
-    caption:"You deserve the world, and I’ll always love you. I’m grateful for everything you do, and thankful to have a girlfriend like you💛",
-    music:"hufflepuff.mpeg",
-    photos:["h1.jpeg","h2.jpeg","h3.jpeg","h4.jpeg","h5.jpeg","h6.jpeg","h7.jpeg","h8.jpeg","h9.jpeg"]
-  },
-  slytherin:{
-    color:"#2aff7a",
-    title:"Happy Birthday My Love!!",
-    caption:"you're my four leaf clover🍀💚",
-    music:"slytherin.mpeg",
-    photos:["s1.jpeg","s2.jpeg","s3.jpeg","s4.jpeg","s5.jpeg","s6.jpeg","s7.jpeg","s8.jpeg","s9.jpeg"]
-  }
+/* ===== DATA HOUSE ===== */
+const houses={
+gryffindor:{
+ color:"#ff3b3b",
+ title:"Happy Birthday My Girlfriend!!",
+ caption:"Thank you for being a part of my life, thank you for growing well, thank you for always being the source of my happiness ❤️",
+ music:"gryffindor.mpeg",
+ photos:["g1.jpeg","g2.jpeg","g3.jpeg","g4.jpeg","g5.jpeg","g6.jpeg","g7.jpeg","g8.jpeg","g9.jpeg"]
+},
+ravenclaw:{
+ color:"#4facff",
+ title:"Happy Birthday My Smart Angel!!",
+ caption:`I hope that on this special day you are surrounded by happiness, filled with joy, and blessed with love 💙`,
+ music:"ravenclaw.mpeg",
+ photos:["r1.jpeg","r2.jpeg","r3.jpeg","r4.jpeg","r5.jpeg","r6.jpeg","r7.jpeg","r8.jpeg","r9.jpeg"]
+},
+hufflepuff:{
+ color:"#ffd34a",
+ title:"Happy Birthday My Sweetheart!!",
+ caption:"You deserve the world, and I’ll always love you. I’m grateful for everything you do, and thankful to have a girlfriend like you💛",
+ music:"hufflepuff.mpeg",
+ photos:["h1.jpeg","h2.jpeg","h3.jpeg","h4.jpeg","h5.jpeg","h6.jpeg","h7.jpeg","h8.jpeg","h9.jpeg"]
+},
+slytherin:{
+ color:"#2aff7a",
+ title:"Happy Birthday My Love!!",
+ caption:"you're my four leaf clover🍀💚",
+ music:"slytherin.mpeg",
+ photos:["s1.jpeg","s2.jpeg","s3.jpeg","s4.jpeg","s5.jpeg","s6.jpeg","s7.jpeg","s8.jpeg","s9.jpeg"]
+}
 };
 
-var audio,typing,fwInterval;
+let audio,typing,fw;
 
-// ================= TYPING =================
+/* ===== TYPING REALISTIS (LEBIH PELAN) ===== */
 function typeText(el,text){
-  el.textContent="";
-  clearInterval(typing);
-  var i=0;
-  typing=setInterval(()=>{
-    el.textContent+=text[i++];
-    if(i>=text.length) clearInterval(typing);
-  },35);
+ el.textContent="";
+ clearInterval(typing);
+ let i=0;
+ typing=setInterval(()=>{
+  el.textContent+=text[i];
+  i++;
+  if(i>=text.length) clearInterval(typing);
+ },80); // DIPERLAMBAT
 }
 
-// ================= OPEN HOUSE =================
+/* ===== OPEN HOUSE ===== */
 function openHouse(h){
-  menu.style.display="none";
-  container.innerHTML="";
-  if(audio) audio.pause();
-  clearInterval(fwInterval);
+ document.getElementById("menu").style.display="none";
+ document.getElementById("container").innerHTML="";
+ if(audio)audio.pause();
+ clearInterval(fw);
 
-  var c=houses[h];
-  document.body.style.setProperty("--main",c.color);
+ const c=houses[h];
+ document.body.style.setProperty("--main",c.color);
 
-  var slots="";
-  c.photos.forEach((p,i)=>{
-    slots+=`<div class="slot" style="animation-delay:${i*0.1}s"><img src="${p}"></div>`;
-  });
+ let slots="";
+ c.photos.forEach((p,i)=>{
+  slots+=`<div class="slot" style="animation-delay:${i*0.1}s"><img src="${p}"></div>`;
+ });
 
-  var slide=document.createElement("div");
-  slide.className="slide active";
-  slide.innerHTML=`
-    <div class="bg"></div>
-    <button class="back" onclick="goBack()">⬅ Back</button>
-    <div class="gridContainer">
-      <div class="gridTitle"></div>
-      <div class="grid">${slots}</div>
-      <div class="captionWrap">
-        <div class="caption"></div>
-        <button class="playCaption" onclick="playCaption()">&lt;3</button>
-      </div>
+ const slide=document.createElement("div");
+ slide.className="slide active";
+ slide.innerHTML=`
+  <div class="bg"></div>
+  <button class="back" onclick="goBack()">⬅ Back</button>
+  <div class="gridContainer">
+    <div class="gridTitle"></div>
+    <div class="grid">${slots}</div>
+    <div class="captionWrap">
+      <div class="caption"></div>
+      <button class="playCaption" onclick="playCaption('${h}')">&lt;3</button>
     </div>
-  `;
-  slide.dataset.title=c.title;
-  slide.dataset.caption=c.caption;
-  container.appendChild(slide);
+  </div>`;
+ slide.dataset.title=c.title;
+ slide.dataset.caption=c.caption;
+ document.getElementById("container").appendChild(slide);
 
-  audio=new Audio(c.music);
-  audio.loop=true;
-  audio.play();
+ audio=new Audio(c.music);
+ audio.loop=true;
+ audio.play();
 
-  fwInterval=setInterval(()=>{
-    const shell=document.createElement("div");
-    shell.className="shell";
-    shell.style.left=Math.random()*100+"%";
-    slide.appendChild(shell);
-    setTimeout(()=>{
-      for(let i=0;i<20;i++){
-        const s=document.createElement("div");
-        s.className="spark";
-        s.style.left=shell.style.left;
-        s.style.bottom="80vh";
-        s.style.setProperty("--x",(Math.random()*200-100)+"px");
-        s.style.setProperty("--y",(Math.random()*200-100)+"px");
-        slide.appendChild(s);
-        setTimeout(()=>s.remove(),1000);
-      }
-      shell.remove();
-    },1100);
-  },600);
+ fw=setInterval(()=>firework(slide),600);
 }
 
-// ================= PLAY CAPTION =================
+/* ===== PLAY CAPTION ===== */
 function playCaption(){
-  const slide=document.querySelector(".slide.active");
-  typeText(slide.querySelector(".gridTitle"),slide.dataset.title);
-  setTimeout(()=>{
-    typeText(slide.querySelector(".caption"),slide.dataset.caption);
-  },slide.dataset.title.length*35+300);
+ const slide=document.querySelector(".slide.active");
+ const title=slide.querySelector(".gridTitle");
+ const cap=slide.querySelector(".caption");
+ typeText(title,slide.dataset.title);
+ setTimeout(()=>typeText(cap,slide.dataset.caption),slide.dataset.title.length*80+400);
 }
 
-// ================= BACK =================
+/* ===== BACK ===== */
 function goBack(){
-  container.innerHTML="";
-  menu.style.display="flex";
-  if(audio) audio.pause();
-  clearInterval(fwInterval);
+ document.getElementById("container").innerHTML="";
+ document.getElementById("menu").style.display="flex";
+ if(audio)audio.pause();
+ clearInterval(fw);
+}
+
+/* ===== FIREWORK ===== */
+function firework(p){
+ const shell=document.createElement("div");
+ shell.className="shell";
+ shell.style.left=Math.random()*100+"%";
+ p.appendChild(shell);
+ setTimeout(()=>{
+  for(let i=0;i<20;i++){
+   const s=document.createElement("div");
+   s.className="spark";
+   s.style.left=shell.style.left;
+   s.style.bottom="80vh";
+   s.style.setProperty("--x",(Math.random()*200-100)+"px");
+   s.style.setProperty("--y",(Math.random()*200-100)+"px");
+   p.appendChild(s);
+   setTimeout(()=>s.remove(),1000);
+  }
+  shell.remove();
+ },1100);
 }
 </script>
+
 </body>
 </html>
-
-
